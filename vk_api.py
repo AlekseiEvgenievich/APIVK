@@ -1,14 +1,9 @@
-import requests
-import pathlib
-import json
-from urllib.parse import unquote
-from urllib.parse import urlsplit
 import os
 import random
-from telegram import Bot
-import os
-import time
+
+import requests
 from dotenv import load_dotenv
+from telegram import Bot
 
 
 def download_image(url, name_path='images/comic.png'):
@@ -19,16 +14,16 @@ def download_image(url, name_path='images/comic.png'):
         
         
 def send_on_telegram(bot_token, folder_name, channel_name, funny_comment):
-        max_file_size = 20 * 1024 * 1024
-        bot = Bot(token=bot_token)
-        for dirpath, dirnames, filenames in os.walk(folder_name):
-            for file_name in filenames:
-                file_path = '{}/{}'.format(folder_name,file_name)
-                if os.path.getsize(file_path) <= max_file_size:
-                    with open(f'{folder_name}/{file_name}', 'rb') as photo_file:
-                        bot.send_photo(chat_id=channel_name, photo=photo_file)
-                        bot.send_message(chat_id=channel_name, text=funny_comment)
-                os.remove(file_path)
+    max_file_size = 20 * 1024 * 1024
+    bot = Bot(token=bot_token)
+    for dirpath, dirnames, filenames in os.walk(folder_name):
+        for file_name in filenames:
+            file_path = '{}/{}'.format(folder_name, file_name)
+            if os.path.getsize(file_path) <= max_file_size:
+                with open(f'{folder_name}/{file_name}', 'rb') as photo_file:
+                    bot.send_photo(chat_id=channel_name, photo=photo_file)
+                    bot.send_message(chat_id=channel_name, text=funny_comment)
+            os.remove(file_path)
                 
 
 def get_random_number_of_comics():
@@ -64,7 +59,3 @@ if __name__ == '__main__':
     download_image(get_image_link(random_number_of_comic))
     funny_comment = get_funny_comment(random_number_of_comic)
     send_on_telegram(bot_token, folder_name, channel_name, funny_comment)
-
-
-
-
