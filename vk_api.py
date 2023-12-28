@@ -27,8 +27,8 @@ def download_random_comic(folder_name):
     comics_response.raise_for_status()
     image_response = requests.get(comics_response.json()['img'])
     image_response.raise_for_status()
-    file_name = f'xcd_{random_number}'
-    outpath = Path.cwd() / folder_name / file_name
+    image_name = f'xcd_{random_number}'
+    outpath = Path.cwd() / folder_name / image_name
     with open(outpath, 'wb') as file:
         file.write(image_response.content)
     return outpath, comics_response.json()['alt']
